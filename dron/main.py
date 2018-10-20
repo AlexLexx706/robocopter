@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import rospy
 from mavros_msgs.msg import RCIn
 from clever import srv
