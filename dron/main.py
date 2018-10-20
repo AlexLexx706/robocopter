@@ -14,13 +14,10 @@ land = rospy.ServiceProxy('land', Trigger)
 release = rospy.ServiceProxy('release', Trigger)
 start = get_telemetry()
 
-rospy.init_node('control_node')   # название вашей ROS-ноды
-
-# Вызывается при получении новых данных с пульта
+rospy.init_node('control_node')
 
 
 def rc_callback(data):
-    # Произвольная реакция на переключение тумблера на пульте
     print(data)
     if data.channels[5] < 1100:
         dron.start_flag = 0
@@ -34,10 +31,8 @@ def take_off(z):
     start = get_telemetry()
     print(navigate(z=z, speed=0.4, frame_id='fcu_horiz', auto_arm=True))
     while True:
-        # Проверяем текущую высоту
         print('z', get_telemetry().z)
         if get_telemetry().z - start.z + z < tolerance:
-            # Взлет завершен
             break
         rospy.sleep(0.2)
 
@@ -47,13 +42,10 @@ def translate(x, y, z, speed):
     tolerance = 0.1
     frame_id = 'fcu_horiz'
     print(dron.navigate(frame_id=frame_id, x=x, y=y, z=z, speed=speed))
-    # Ждем, пока коптер долетит до запрошенной точки
     while True:
         telem = dron.get_telemetry(frame_id=frame_id)
-        # Вычисляем расстояние до заданной точки
         print('telem', telem)
         if dron.get_distance(1, 2, 3, telem.x, telem.y, telem.z) < tolerance:
-            # Долетели до необходимой точки
             break
         rospy.sleep(0.2)
 
