@@ -14,6 +14,8 @@ start = get_telemetry()
 rospy.init_node('control_node')   # название вашей ROS-ноды
 
 # Вызывается при получении новых данных с пульта
+
+
 def rc_callback(data):
     # Произвольная реакция на переключение тумблера на пульте
     print(data)
@@ -36,7 +38,8 @@ def take_off(z):
 	        break
 	    rospy.sleep(0.2)
 
-def translate(x,y,z, speed):
+
+def translate(x, y, z, speed):
 	print('translate')
 	tolerance = 0.1
 	frame_id = 'fcu_horiz'
@@ -50,6 +53,7 @@ def translate(x,y,z, speed):
 	        # Долетели до необходимой точки
 	        break
 	    rospy.sleep(0.2)
+
 
 def landing():
 	print('landing')
@@ -67,8 +71,8 @@ def release():
 	res = dron.release()
 	
 
-#rospy.Subscriber('mavros/rc/in', RCIn, rc_callback)
-#rospy.spin()
+# rospy.Subscriber('mavros/rc/in', RCIn, rc_callback)
+# rospy.spin()
 
 if __name__ == '__main__':
 	take_off(1)
